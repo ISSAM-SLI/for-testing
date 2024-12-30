@@ -4,6 +4,7 @@ from questions import fetch_questions
 from flask_login import login_required, current_user
 from flask import request, redirect, url_for, session, render_template
 from datetime import datetime
+from app.models import QuizResult
 
 @app.route('/')
 def home():
@@ -63,7 +64,9 @@ def submit_quiz():
     """
     Route to handle quiz submissions and calculate score.
     """
+    print(f"Reached submit_quiz route with score: {session.get('score', 0)} for user: {current_user.id}")
     score = session['score']
+    print("Saving result:", score, "for user:", current_user.id)
 
     # Save the score to the database
     new_result = QuizResult(score=score, user_id=current_user.id, date_taken=datetime.utcnow())
@@ -84,4 +87,3 @@ def result():
     
     # Show the result page with the user's score
     return render_template('result.html', score=score, total_questions=total_questions)
-

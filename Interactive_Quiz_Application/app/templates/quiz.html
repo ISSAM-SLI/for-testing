@@ -9,7 +9,7 @@
         function startTimer(duration) {
             let countdown = duration;
             const timerElement = document.getElementById('timer');
-            
+
             timer = setInterval(() => {
                 timerElement.textContent = countdown; // Update timer display
                 if (countdown <= 0) {
@@ -33,7 +33,7 @@
         <p>Question {{ question_index }} of {{ total_questions }}</p>
         <p>Time remaining: <span id="timer">30</span> seconds</p>
 
-        <form method="POST" action="{{ url_for('quiz') }}" id="quiz-form">
+        <form method="POST" action="{% if question_index == total_questions %}{{ url_for('submit_quiz') }}{% else %}{{ url_for('quiz') }}{% endif %}" id="quiz-form">
             <div class="question">
                 <p>{{ question.question }}</p>
                 <ul>
